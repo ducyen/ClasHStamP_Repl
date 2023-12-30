@@ -1,0 +1,7 @@
+For Linux:
+■ Check Constructor's optionParams for C language
+■ Remove AllNotations/Model/BaseClass
+■ scanf_s to become scanf
+■ Fix function prototype positions for C language
+■ Generate replacement for entry/exitPoint for Astah Community
+■ Code synchronizing for Astah Community

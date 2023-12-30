@@ -1,0 +1,11 @@
+/.metadata/
+/Debug
+/C/Debug
+/Cpp/Debug
+/CSharp/bin
+/CSharp/obj
+*.class
+*.bak
+*.db
+*.opendb
+*.suo

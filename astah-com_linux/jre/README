@@ -1,0 +1,17 @@
+                              README
+
+                 Java(TM) Platform, Standard Edition
+                         Runtime Environment
+                              Version 6
+
+
+This special version of Java SE includes the very latest performance
+innovations from Sun on selected platforms. The software is free for
+download, application performance testing, and benchmark submissions.
+Performance releases may be used in production. If desired, support is
+available via a Sun Java support contract. These performance
+enhancements will be included in an upcoming standard release of the
+Java SE platform.
+
+Please share with us your experience using this special advance 
+release at java_performance_feedback@sun.com.
