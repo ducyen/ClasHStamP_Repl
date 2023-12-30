@@ -1,4 +1,5 @@
 For Linux:
+▶ Use ~/$REPL_SUG instead of ~/ClasHStamP
 ■ Check Constructor's optionParams for C language
 ■ Remove AllNotations/Model/BaseClass
 ■ scanf_s to become scanf
