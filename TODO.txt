@@ -1,5 +1,7 @@
 For Linux:
 ▶ Use ~/$REPL_SUG instead of ~/ClasHStamP
+▶ Display state transition on images.
+■ Generated Images from Diagrams
 ■ Check Constructor's optionParams for C language
 ■ Remove AllNotations/Model/BaseClass
 ■ scanf_s to become scanf
