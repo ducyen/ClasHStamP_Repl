@@ -75,7 +75,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>__syntax__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>Interfaces;NonOOP;Model;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Abstracts;Interfaces;NonOOP;Model;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -112,11 +112,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Abstracts\BaseClass.h" />
     <ClInclude Include="Interfaces\Interface1.h" />
     <ClInclude Include="Interfaces\Interface2.h" />
     <ClInclude Include="Model\AFriend.h" />
     <ClInclude Include="Model\Aggregration.h" />
-    <ClInclude Include="Model\BaseClass.h" />
     <ClInclude Include="Model\CalledDependency.h" />
     <ClInclude Include="Model\CommonInclude.h" />
     <ClInclude Include="Model\Composition.h" />
@@ -126,8 +126,8 @@
     <ClInclude Include="NonOOP\HdStateMachine.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Abstracts\BaseClass.c" />
     <ClCompile Include="main.c" />
-    <ClCompile Include="Model\BaseClass.c" />
     <ClCompile Include="Model\Context.c" />
     <ClCompile Include="Model\ContextImpl.c">
       <PreprocessToFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</PreprocessToFile>

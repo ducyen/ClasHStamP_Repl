@@ -27,9 +27,6 @@
     <ClInclude Include="Model\Aggregration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Model\BaseClass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Model\CalledDependency.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -51,15 +48,15 @@
     <ClInclude Include="Interfaces\Interface2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Abstracts\BaseClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Model\Context.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Model\BaseClass.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="NonOOP\HdStateMachine.c">
@@ -69,6 +66,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Model\UsedDependency.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Abstracts\BaseClass.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
