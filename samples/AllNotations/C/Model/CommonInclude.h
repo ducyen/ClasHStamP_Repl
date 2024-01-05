@@ -2,11 +2,16 @@
 #define __COMMON_INCLUDE_H__                                        /* 複数インクルード防止 */
 
 #include <stddef.h>
+#if defined( _MSC_VER )
+#include <windows.h>
+#endif
 
 typedef unsigned long   uint32_t;
 typedef unsigned short  uint16_t;
 typedef unsigned char   uint8_t;
+#if !defined( _MSC_VER )
 typedef int             boolean;
+#endif
 typedef int             bool;
 
 #define false   ( 0 )
