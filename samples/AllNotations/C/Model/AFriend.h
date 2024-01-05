@@ -21,7 +21,7 @@ AFriend* AFriend_Copy( AFriend* pAFriend, const AFriend* pSource );
  */
 #define AFriend_CLASS                                                                           \
     size_t cbSize;                                                                              \
-    int attribute3;                                                                                                            \
+    int attribute3;                                                                                                           \
 
 typedef struct tagAFriend{
     AFriend_CLASS    

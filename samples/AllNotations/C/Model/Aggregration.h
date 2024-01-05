@@ -19,7 +19,7 @@ Aggregration* Aggregration_Copy( Aggregration* pAggregration, const Aggregration
  */
 #define Aggregration_CLASS                                                                      \
     size_t cbSize;                                                                              \
-    int attribute2;                                                                                                            \
+    int attribute2;                                                                                                           \
 
 typedef struct tagAggregration{
     Aggregration_CLASS    

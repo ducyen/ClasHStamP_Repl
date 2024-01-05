@@ -28,7 +28,7 @@ BaseClass* BaseClass_Copy( BaseClass* pBaseClass, const BaseClass* pSource );
 #define BaseClass_CLASS                                                                         \
     const BaseClassVtbl* const vTbl;                                                            \
     size_t cbSize;                                                                              \
-    int derivableAttribute;                                                                                            \
+    int derivableAttribute;                                                                                           \
 
 typedef struct tagBaseClass{
     BaseClass_CLASS    

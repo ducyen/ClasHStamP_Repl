@@ -19,7 +19,7 @@ Composition* Composition_Copy( Composition* pComposition, const Composition* pSo
  */
 #define Composition_CLASS                                                                       \
     size_t cbSize;                                                                              \
-    int attribute4;                                                                                                            \
+    int attribute4;                                                                                                           \
 
 typedef struct tagComposition{
     Composition_CLASS    

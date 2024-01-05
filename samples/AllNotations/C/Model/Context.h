@@ -49,10 +49,10 @@ BaseClass* Context_Copy( Context* pContext, const Context* pSource );
  */
 #define Context_CLASS                                                                           \
     BaseClass_CLASS                                                                             \
-    String publicAttribute;                                                                                            \
-    int privateAttribute;                                                                                                \
-    int internalAttribute;                                                                                              \
-    boolean isInitializedAttribute;                                                                            \
+    String publicAttribute;                                                                                           \
+    int privateAttribute;                                                                                               \
+    int internalAttribute;                                                                                             \
+    boolean isInitializedAttribute;                                                                           \
     const int readOnlyAttribute;                                \
     Aggregration* anAggregation[ 3 ];                           \
     Composition aProtectedComposition[ 10 ];                    \

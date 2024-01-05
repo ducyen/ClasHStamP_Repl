@@ -32,8 +32,37 @@ void DisplayMsg(char* pMsg) {
 #if defined( _MSC_VER )
 #define CALL(ptr, method, ...) ((ptr)->lpVtbl->method((ptr), __VA_ARGS__))
 
-int DrawRectangle()
+WCHAR* ConvertCharToWChar(const char* charString, UINT codePage) {
+    int requiredSize = MultiByteToWideChar(codePage, 0, charString, -1, NULL, 0);
+    if (requiredSize == 0) {
+        fprintf(stderr, "MultiByteToWideChar failed.\n");
+        return NULL;
+    }
+
+    WCHAR* wideString = (WCHAR*)malloc(requiredSize * sizeof(WCHAR));
+    if (wideString == NULL) {
+        fprintf(stderr, "Memory allocation failed.\n");
+        return NULL;
+    }
+
+    if (MultiByteToWideChar(codePage, 0, charString, -1, wideString, requiredSize) == 0) {
+        free(wideString);
+        fprintf(stderr, "MultiByteToWideChar failed.\n");
+        return NULL;
+    }
+
+    return wideString;
+}
+
+int DrawRectangle( char* sPath, int nLeft, int nTop, int nWidth, int nHeight, int nDgrLeft, int nDgrTop, int nDgrWidth, int nDgrHeight, uint8_t byRed, uint8_t byGreen, uint8_t byBlue )
 {
+    WCHAR* wideString = ConvertCharToWChar(sPath, CP_UTF8);  // Using UTF-8 code page
+    WCHAR strInputFile[ 256 ];
+    WCHAR strOutputFile[ 256 ];
+
+    swprintf( strInputFile, sizeof( strInputFile ) / sizeof( strInputFile[ 0 ] ), L"../Image/Design/%s.png", wideString );
+    swprintf( strOutputFile, sizeof( strOutputFile ) / sizeof( strOutputFile[ 0 ] ), L"../TransImg/Design/%s.png", wideString );
+
     HRESULT hr = S_OK;
 
     hr = CoInitialize( NULL );
@@ -57,7 +86,7 @@ int DrawRectangle()
     IWICBitmapFrameDecode *pIDecoderFrame = NULL;
 
     hr = CALL( m_pIWICFactory, CreateDecoderFromFilename,
-        L"../Image/Design/Model/ContextImpl/MainStm.png",                  // Image to be decoded
+        strInputFile,                   // Image to be decoded
         NULL,                           // Do not prefer a particular vendor
         GENERIC_READ,                   // Desired read access to the file
         WICDecodeMetadataCacheOnDemand, // Cache metadata when needed
@@ -106,17 +135,28 @@ int DrawRectangle()
             // Pixel manipulation using the image data pointer pv.
             UINT cbStride;
             hr = CALL( pILock, GetStride, &cbStride );
+            uiHeight -= ( 40 - 14 );
+            //uiWidth  -= ( nLeftMgn + nRightMgn );
+            nTop = ( float )( nTop - nDgrTop ) * uiHeight / nDgrHeight;
+            nLeft = ( float )( nLeft - nDgrLeft ) * uiWidth / nDgrWidth;
+            nHeight = ( float )nHeight * uiHeight / nDgrHeight;
+            nWidth = ( float )nWidth * uiWidth / nDgrWidth;
+            UINT nDotSize = 3;
             // Draw the rectangle on the destination bitmap
-            for( UINT y = 10; y < 110 && y < uiHeight; y++ ){
-                for( UINT x = 10; x < 110 && x < uiWidth; x++ ){
-                    UINT srcIndex = y * cbStride + x * 4;
-                    UINT destIndex = y * cbStride + x * 4;
+            for( UINT y = nTop; y < nTop + nHeight; y++ ){
+                for( UINT x = nLeft; x < nLeft + nWidth; x++ ){
+                    if( y >= nTop + nDotSize && y < nTop + nHeight - nDotSize && x >= nLeft + nDotSize && x < nLeft + nWidth - nDotSize ){
+                        ; // Do nothing
+                    } else{
+                        UINT srcIndex = y * cbStride + x * 4;
+                        UINT destIndex = y * cbStride + x * 4;
 
-                    // For simplicity, we'll just set the pixel to red (assuming 32bpp BGRA format)
-                    pv[ destIndex ] = 0;       // Blue
-                    pv[ destIndex + 1 ] = 0;   // Green
-                    pv[ destIndex + 2 ] = 255; // Red
-                    pv[ destIndex + 3 ] = 255; // Alpha
+                        // For simplicity, we'll just set the pixel to red (assuming 32bpp BGRA format)
+                        pv[ destIndex ] = byBlue;       // Blue
+                        pv[ destIndex + 1 ] = byGreen;   // Green
+                        pv[ destIndex + 2 ] = byRed; // Red
+                        pv[ destIndex + 3 ] = 255; // Alpha
+                    }
                 }
             }
 
@@ -136,7 +176,7 @@ int DrawRectangle()
         hr = CALL( m_pIWICFactory, CreateStream, &pStream );
 
         if( SUCCEEDED( hr ) ){
-            hr = CALL( pStream, InitializeFromFilename, L"../TransImg/Design/Model/ContextImpl/MainStm.png", GENERIC_WRITE );
+            hr = CALL( pStream, InitializeFromFilename, strOutputFile, GENERIC_WRITE );
         }
 
         if( SUCCEEDED( hr ) ){
@@ -174,6 +214,7 @@ int DrawRectangle()
     if( pIBitmap ) CALL( pIBitmap, Release );
     if( m_pIWICFactory ) CALL( m_pIWICFactory, Release );
     CoUninitialize();
+    free(wideString);
 
 }
 
@@ -183,28 +224,22 @@ int DrawRectangle()
 #endif
 
 void ShowEntry( char* pMsg ){
-    /*
-    printf( "Tokens:\n" );
 
-    char seps[] = ",";
-    char *token;
-
-    // Establish string and get the first token:
-    token = strtok( pMsg, seps ); // C4996
-    // Note: strtok is deprecated; consider using strtok_s instead
-    while( token != NULL ){
-        // While there are tokens in "string"
-        printf( " %s\n", token );
-
-        // Get next token:
-        token = strtok( NULL, seps ); // C4996
-    }
-    */
-    DisplayMsg( pMsg );
+    char s[ 256 ];
+    int l, t, w, h, dgrX, dgrY, dgrW, dgrH;
+    sscanf( pMsg, "%s%d%d%d%d%d%d%d%d", s, &l, &t, &w, &h, &dgrX, &dgrY, &dgrW, &dgrH );
+    
+    DrawRectangle( s, l, t, w, h, dgrX, dgrY, dgrW, dgrH, 0, 255, 0 );
+    Sleep( 500 );
 }
 
 void ShowExit( char* pMsg ){
-    DisplayMsg( pMsg );
+    char s[ 256 ];
+    int l, t, w, h, dgrX, dgrY, dgrW, dgrH;
+    sscanf( pMsg, "%s%d%d%d%d%d%d%d%d", s, &l, &t, &w, &h, &dgrX, &dgrY, &dgrW, &dgrH );
+    
+    DrawRectangle( s, l, t, w, h, dgrX, dgrY, dgrW, dgrH, 255, 0, 0 );
+    Sleep( 500 );
 }
 
 int main( void ){

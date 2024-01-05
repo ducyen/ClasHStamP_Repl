@@ -19,7 +19,7 @@ UsedDependency* UsedDependency_Copy( UsedDependency* pUsedDependency, const Used
  */
 #define UsedDependency_CLASS                                                                    \
     size_t cbSize;                                                                              \
-    int attribute6;                                                                                                            \
+    int attribute6;                                                                                                           \
 
 typedef struct tagUsedDependency{
     UsedDependency_CLASS    

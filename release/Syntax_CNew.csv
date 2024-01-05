@@ -339,7 +339,7 @@ int [sCOPE]_IsFinished([sCOPE]* p[sCOPE]){
 transition,"static void [Scope]_[nAME]_Entry( [tYPE]* p[tYPE], [sCOPE]* pStm ){
     if( HdStateMachine_Enterable( &pStm->base, [sCOPE]_[nAME] ) ){
         [Scope]_[cONTAINER]_Entry( p[tYPE], pStm );
-        printf( ""%s\n"", __FUNCTION__ );
+        ShowEntry( ""[dESC]"" );
 [vALUE]    }
 [mODIFIER]}
 static BOOL [Scope]_[nAME]_EventProc( [tYPE]* p[tYPE], [sCOPE]* pStm, [tYPE]_EVENT nEventId, void* pEventParams ){
@@ -356,14 +356,14 @@ static BOOL [Scope]_[nAME]_EventProc( [tYPE]* p[tYPE], [sCOPE]* pStm, [tYPE]_EVE
 }
 static void [Scope]_[nAME]_Exit( [tYPE]* p[tYPE], [sCOPE]* pStm ){
     if( HdStateMachine_Exitable( &pStm->base, [sCOPE]_[nAME] ) ){ 
-[vALUE]        printf( ""%s\n"", __FUNCTION__ );
+[vALUE]        ShowExit( ""[dESC]"" );
         [Scope]_[cONTAINER]_Exit( p[tYPE], pStm );
     }
 }
 "
 trans_top,"static void [Scope]_[nAME]_Entry( [tYPE]* p[tYPE], [sCOPE]* pStm ){
     if( HdStateMachine_Enterable( &pStm->base, [sCOPE]_[nAME] ) ){
-        printf( ""%s\n"", __FUNCTION__ );
+        ShowEntry( ""[dESC]"" );
 [vALUE]    }
 [mODIFIER]}
 static BOOL [Scope]_[nAME]_EventProc( [tYPE]* p[tYPE], [sCOPE]* pStm, [tYPE]_EVENT nEventId, void* pEventParams ){
@@ -380,7 +380,7 @@ static BOOL [Scope]_[nAME]_EventProc( [tYPE]* p[tYPE], [sCOPE]* pStm, [tYPE]_EVE
 }
 static void [Scope]_[nAME]_Exit( [tYPE]* p[tYPE], [sCOPE]* pStm ){
     if( HdStateMachine_Exitable( &pStm->base, [sCOPE]_[nAME] ) ){ 
-[vALUE]        printf( ""%s\n"", __FUNCTION__ );
+[vALUE]        ShowExit( ""[dESC]"" );
     }
 }
 "

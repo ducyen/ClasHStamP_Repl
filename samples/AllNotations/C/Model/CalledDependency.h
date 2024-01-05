@@ -19,7 +19,7 @@ CalledDependency* CalledDependency_Copy( CalledDependency* pCalledDependency, co
  */
 #define CalledDependency_CLASS                                                                  \
     size_t cbSize;                                                                              \
-    int attribute0;                                                                                                            \
+    int attribute0;                                                                                                           \
 
 typedef struct tagCalledDependency{
     CalledDependency_CLASS    
