@@ -480,6 +480,13 @@ static BOOL MainStm_S1_EventProc( ContextImpl* pContextImpl, MainStm* pStm, Cont
             MainStm_EndTrans( pContextImpl, pStm );
             bResult = TRUE;
         } else {
+            if( pStm->nS7History && pStm->nS7History != MainStm_S7 ){
+                MainStm_BgnTrans( pContextImpl, pStm, pStm->nS7History, STATE_UNDEF );
+                DisplayMsg("Do an action1");DisplayMsg("Do an action3");
+                MainStm_EndTrans( pContextImpl, pStm );
+                bResult = TRUE;
+                break;
+            }
             MainStm_BgnTrans( pContextImpl, pStm, MainStm_S7, MainStm_InitPt3 );
             DisplayMsg("Do an action1");
             DisplayMsg("Do an action3");
@@ -677,7 +684,6 @@ static BOOL MainStm_S42_EventProc( ContextImpl* pContextImpl, MainStm* pStm, Con
     case ContextImpl_E1:{
         E1Params* e = ( E1Params* )pEventParams;
         MainStm_BgnTrans( pContextImpl, pStm, MainStm_S4, STATE_UNDEF );
-        pStm->nS4History = MainStm_S4;
         MainStm_EndTrans( pContextImpl, pStm );
         bResult = TRUE;
     } break;
@@ -750,6 +756,9 @@ static BOOL MainStm_S8_EventProc( ContextImpl* pContextImpl, MainStm* pStm, Cont
             bResult = TRUE;
             break;
         }
+        MainStm_BgnTrans( pContextImpl, pStm, MainStm_S7, MainStm_InitPt3 );
+        MainStm_EndTrans( pContextImpl, pStm );
+        bResult = TRUE;
     } break;
     default: break;
     }
@@ -855,7 +864,7 @@ static void MainStm_S812_Exit( ContextImpl* pContextImpl, MainStm* pStm ){
 }
 static void MainStm_S7_Entry( ContextImpl* pContextImpl, MainStm* pStm ){
     if( HdStateMachine_Enterable( &pStm->base, MainStm_S7 ) ){
-        ShowEntry( "Model/ContextImpl/MainStm	138	592	130	366	9	-22	1375	1085" );
+        ShowEntry( "Model/ContextImpl/MainStm	104	592	164	360	9	-22	1375	1085" );
     }
 }
 static BOOL MainStm_S7_EventProc( ContextImpl* pContextImpl, MainStm* pStm, ContextImpl_EVENT nEventId, void* pEventParams ){
@@ -865,7 +874,7 @@ static BOOL MainStm_S7_EventProc( ContextImpl* pContextImpl, MainStm* pStm, Cont
     case ContextImpl_E1:{
         E1Params* e = ( E1Params* )pEventParams;
         pStm->base.bIsExternTrans = TRUE;
-        MainStm_BgnTrans( pContextImpl, pStm, MainStm_S71, STATE_UNDEF );
+        MainStm_BgnTrans( pContextImpl, pStm, MainStm_S71, MainStm_InitialPseudostate0 );
         MainStm_EndTrans( pContextImpl, pStm );
         bResult = TRUE;
     } break;
@@ -887,13 +896,13 @@ static BOOL MainStm_S7_EventProc( ContextImpl* pContextImpl, MainStm* pStm, Cont
 }
 static void MainStm_S7_Exit( ContextImpl* pContextImpl, MainStm* pStm ){
     if( HdStateMachine_Exitable( &pStm->base, MainStm_S7 ) ){ 
-        ShowExit( "Model/ContextImpl/MainStm	138	592	130	366	9	-22	1375	1085" );
+        ShowExit( "Model/ContextImpl/MainStm	104	592	164	360	9	-22	1375	1085" );
     }
 }
 static void MainStm_S71_Entry( ContextImpl* pContextImpl, MainStm* pStm ){
     if( HdStateMachine_Enterable( &pStm->base, MainStm_S71 ) ){
         MainStm_S7_Entry( pContextImpl, pStm );
-        ShowEntry( "Model/ContextImpl/MainStm	157	722	61	53	9	-22	1375	1085" );
+        ShowEntry( "Model/ContextImpl/MainStm	124	659	132	168	9	-22	1375	1085" );
         pStm->nS7History = MainStm_S71;
     }
 }
@@ -904,14 +913,59 @@ static BOOL MainStm_S71_EventProc( ContextImpl* pContextImpl, MainStm* pStm, Con
 }
 static void MainStm_S71_Exit( ContextImpl* pContextImpl, MainStm* pStm ){
     if( HdStateMachine_Exitable( &pStm->base, MainStm_S71 ) ){ 
-        ShowExit( "Model/ContextImpl/MainStm	157	722	61	53	9	-22	1375	1085" );
+        ShowExit( "Model/ContextImpl/MainStm	124	659	132	168	9	-22	1375	1085" );
         MainStm_S7_Exit( pContextImpl, pStm );
+    }
+}
+static void MainStm_S711_Entry( ContextImpl* pContextImpl, MainStm* pStm ){
+    if( HdStateMachine_Enterable( &pStm->base, MainStm_S711 ) ){
+        MainStm_S71_Entry( pContextImpl, pStm );
+        ShowEntry( "Model/ContextImpl/MainStm	181	725	44	37	9	-22	1375	1085" );
+        pStm->nS7History = MainStm_S711;
+    }
+}
+static BOOL MainStm_S711_EventProc( ContextImpl* pContextImpl, MainStm* pStm, ContextImpl_EVENT nEventId, void* pEventParams ){
+    BOOL bResult = FALSE;
+    pStm->base.nSourceState = MainStm_S711;
+    switch( nEventId ){
+    case ContextImpl_E1:{
+        E1Params* e = ( E1Params* )pEventParams;
+        MainStm_BgnTrans( pContextImpl, pStm, MainStm_S712, STATE_UNDEF );
+        MainStm_EndTrans( pContextImpl, pStm );
+        bResult = TRUE;
+    } break;
+    default: break;
+    }
+    return bResult ? bResult : MainStm_S71_EventProc( pContextImpl, pStm, nEventId, pEventParams );
+}
+static void MainStm_S711_Exit( ContextImpl* pContextImpl, MainStm* pStm ){
+    if( HdStateMachine_Exitable( &pStm->base, MainStm_S711 ) ){ 
+        ShowExit( "Model/ContextImpl/MainStm	181	725	44	37	9	-22	1375	1085" );
+        MainStm_S71_Exit( pContextImpl, pStm );
+    }
+}
+static void MainStm_S712_Entry( ContextImpl* pContextImpl, MainStm* pStm ){
+    if( HdStateMachine_Enterable( &pStm->base, MainStm_S712 ) ){
+        MainStm_S71_Entry( pContextImpl, pStm );
+        ShowEntry( "Model/ContextImpl/MainStm	181	775	44	37	9	-22	1375	1085" );
+        pStm->nS7History = MainStm_S712;
+    }
+}
+static BOOL MainStm_S712_EventProc( ContextImpl* pContextImpl, MainStm* pStm, ContextImpl_EVENT nEventId, void* pEventParams ){
+    BOOL bResult = FALSE;
+    pStm->base.nSourceState = MainStm_S712;
+    return bResult ? bResult : MainStm_S71_EventProc( pContextImpl, pStm, nEventId, pEventParams );
+}
+static void MainStm_S712_Exit( ContextImpl* pContextImpl, MainStm* pStm ){
+    if( HdStateMachine_Exitable( &pStm->base, MainStm_S712 ) ){ 
+        ShowExit( "Model/ContextImpl/MainStm	181	775	44	37	9	-22	1375	1085" );
+        MainStm_S71_Exit( pContextImpl, pStm );
     }
 }
 static void MainStm_S72_Entry( ContextImpl* pContextImpl, MainStm* pStm ){
     if( HdStateMachine_Enterable( &pStm->base, MainStm_S72 ) ){
         MainStm_S7_Entry( pContextImpl, pStm );
-        ShowEntry( "Model/ContextImpl/MainStm	157	849	61	53	9	-22	1375	1085" );
+        ShowEntry( "Model/ContextImpl/MainStm	120	857	61	53	9	-22	1375	1085" );
         pStm->nS7History = MainStm_S72;
     }
 }
@@ -922,7 +976,7 @@ static BOOL MainStm_S72_EventProc( ContextImpl* pContextImpl, MainStm* pStm, Con
 }
 static void MainStm_S72_Exit( ContextImpl* pContextImpl, MainStm* pStm ){
     if( HdStateMachine_Exitable( &pStm->base, MainStm_S72 ) ){ 
-        ShowExit( "Model/ContextImpl/MainStm	157	849	61	53	9	-22	1375	1085" );
+        ShowExit( "Model/ContextImpl/MainStm	120	857	61	53	9	-22	1375	1085" );
         MainStm_S7_Exit( pContextImpl, pStm );
     }
 }
@@ -1034,6 +1088,8 @@ static void MainStm_EndTrans( ContextImpl *pContextImpl, MainStm* pStm ){
     case MainStm_S812:          MainStm_S812_Entry( pContextImpl, pStm ); break;
     case MainStm_S7:            MainStm_S7_Entry( pContextImpl, pStm ); break;
     case MainStm_S71:           MainStm_S71_Entry( pContextImpl, pStm ); break;
+    case MainStm_S711:          MainStm_S711_Entry( pContextImpl, pStm ); break;
+    case MainStm_S712:          MainStm_S712_Entry( pContextImpl, pStm ); break;
     case MainStm_S72:           MainStm_S72_Entry( pContextImpl, pStm ); break;
     case MainStm_S10:           MainStm_S10_Entry( pContextImpl, pStm ); break;
     case MainStm_S5:            MainStm_S5_Entry( pContextImpl, pStm ); break;
@@ -1063,6 +1119,8 @@ static void MainStm_BgnTrans( ContextImpl *pContextImpl, MainStm* pStm, UINT32 t
     case MainStm_S812:          MainStm_S812_Exit( pContextImpl, pStm ); break;
     case MainStm_S7:            MainStm_S7_Exit( pContextImpl, pStm ); break;
     case MainStm_S71:           MainStm_S71_Exit( pContextImpl, pStm ); break;
+    case MainStm_S711:          MainStm_S711_Exit( pContextImpl, pStm ); break;
+    case MainStm_S712:          MainStm_S712_Exit( pContextImpl, pStm ); break;
     case MainStm_S72:           MainStm_S72_Exit( pContextImpl, pStm ); break;
     case MainStm_S10:           MainStm_S10_Exit( pContextImpl, pStm ); break;
     case MainStm_S5:            MainStm_S5_Exit( pContextImpl, pStm ); break;
@@ -1108,7 +1166,11 @@ static BOOL MainStm_StateDefaultTrans( ContextImpl* pContextImpl, MainStm* pStm 
         MainStm_EndTrans( pContextImpl, pStm );
         bResult = TRUE;
     }else if( pStm->base.nCurrentState == MainStm_S7 && pStm->base.nPseudostate == MainStm_InitPt3 ){
-        MainStm_BgnTrans( pContextImpl, pStm, MainStm_S71, STATE_UNDEF );
+        MainStm_BgnTrans( pContextImpl, pStm, MainStm_S71, MainStm_InitialPseudostate0 );
+        MainStm_EndTrans( pContextImpl, pStm );
+        bResult = TRUE;
+    }else if( pStm->base.nCurrentState == MainStm_S71 && pStm->base.nPseudostate == MainStm_InitialPseudostate0 ){
+        MainStm_BgnTrans( pContextImpl, pStm, MainStm_S711, STATE_UNDEF );
         MainStm_EndTrans( pContextImpl, pStm );
         bResult = TRUE;
     }else if( pStm->base.nPseudostate == MainStm_S9 ){
@@ -1176,6 +1238,8 @@ static BOOL MainStm_EventProc( ContextImpl* pContextImpl, MainStm* pStm, Context
     case MainStm_S812:                          bResult |= MainStm_S812_EventProc( pContextImpl, pStm, nEventId, pEventParams ); break;
     case MainStm_S7:                            bResult |= MainStm_S7_EventProc( pContextImpl, pStm, nEventId, pEventParams ); break;
     case MainStm_S71:                           bResult |= MainStm_S71_EventProc( pContextImpl, pStm, nEventId, pEventParams ); break;
+    case MainStm_S711:                          bResult |= MainStm_S711_EventProc( pContextImpl, pStm, nEventId, pEventParams ); break;
+    case MainStm_S712:                          bResult |= MainStm_S712_EventProc( pContextImpl, pStm, nEventId, pEventParams ); break;
     case MainStm_S72:                           bResult |= MainStm_S72_EventProc( pContextImpl, pStm, nEventId, pEventParams ); break;
     case MainStm_S10:                           bResult |= MainStm_S10_EventProc( pContextImpl, pStm, nEventId, pEventParams ); break;
     case MainStm_S5:                            bResult |= MainStm_S5_EventProc( pContextImpl, pStm, nEventId, pEventParams ); break;
