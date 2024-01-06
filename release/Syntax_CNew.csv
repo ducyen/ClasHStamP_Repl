@@ -446,7 +446,7 @@ substm_decl,,,"[->]bResult |= [tYPE]_StateDefaultTrans( p[cONTAINER], &pStm->[nA
 ","[->][Scope]_Reset( p[tYPE], &pStm->[nAME][sCOPE], &pStm->base, [mODIFIER]_[vALUE] );
 "
 history,,,"[->]pStm->n[nAME]History = [sCOPE]_[VALUE];
-","[->]if( pStm->n[nAME]History ){
+","[->]if( pStm->n[nAME]History && pStm->n[nAME]History != [Scope]_[nAME] ){
 [->]    [Scope]_BgnTrans( p[tYPE], pStm, pStm->n[nAME]History, STATE_UNDEF );
 [mODIFIER][->]    [Scope]_EndTrans( p[tYPE], pStm );
 [->]    bResult = TRUE;

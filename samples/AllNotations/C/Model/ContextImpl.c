@@ -462,7 +462,7 @@ static BOOL MainStm_S1_EventProc( ContextImpl* pContextImpl, MainStm* pStm, Cont
     case ContextImpl_E2:{
         int n = InputValue("Enter condition1: ");
         if (n == 0) {
-            if( pStm->nS4History ){
+            if( pStm->nS4History && pStm->nS4History != MainStm_S4 ){
                 MainStm_BgnTrans( pContextImpl, pStm, pStm->nS4History, STATE_UNDEF );
                 DisplayMsg("Do an action4");
                 MainStm_EndTrans( pContextImpl, pStm );
@@ -512,7 +512,7 @@ static BOOL MainStm_S2_EventProc( ContextImpl* pContextImpl, MainStm* pStm, Cont
         bResult = TRUE;
     } break;
     case ContextImpl_E3:{
-        if( pStm->nS4History ){
+        if( pStm->nS4History && pStm->nS4History != MainStm_S4 ){
             MainStm_BgnTrans( pContextImpl, pStm, pStm->nS4History, STATE_UNDEF );
             MainStm_EndTrans( pContextImpl, pStm );
             bResult = TRUE;
@@ -677,7 +677,7 @@ static BOOL MainStm_S42_EventProc( ContextImpl* pContextImpl, MainStm* pStm, Con
     case ContextImpl_E1:{
         E1Params* e = ( E1Params* )pEventParams;
         MainStm_BgnTrans( pContextImpl, pStm, MainStm_S4, STATE_UNDEF );
-        pStm->nS4History = STATE_UNDEF;
+        pStm->nS4History = MainStm_S4;
         MainStm_EndTrans( pContextImpl, pStm );
         bResult = TRUE;
     } break;
@@ -707,7 +707,7 @@ static BOOL MainStm_S6_EventProc( ContextImpl* pContextImpl, MainStm* pStm, Cont
         bResult = TRUE;
     } break;
     case ContextImpl_E4:{
-        if( pStm->nS4History ){
+        if( pStm->nS4History && pStm->nS4History != MainStm_S4 ){
             MainStm_BgnTrans( pContextImpl, pStm, pStm->nS4History, STATE_UNDEF );
             MainStm_EndTrans( pContextImpl, pStm );
             bResult = TRUE;
@@ -744,7 +744,7 @@ static BOOL MainStm_S8_EventProc( ContextImpl* pContextImpl, MainStm* pStm, Cont
         bResult = TRUE;
     } break;
     case ContextImpl_E5:{
-        if( pStm->nS7History ){
+        if( pStm->nS7History && pStm->nS7History != MainStm_S7 ){
             MainStm_BgnTrans( pContextImpl, pStm, pStm->nS7History, STATE_UNDEF );
             MainStm_EndTrans( pContextImpl, pStm );
             bResult = TRUE;
